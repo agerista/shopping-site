@@ -59,12 +59,17 @@ def show_melon(melon_id):
 @app.route("/cart")
 def show_shopping_cart():
     """Display content of shopping cart."""
+    
 
     # TODO: Display the contents of the shopping cart.
 
     # The logic here will be something like:
     #
-    # - get the cart dictionary from the session
+    # - get the cart dictionary from the 
+
+# In order to use message flashing, you need a secret_key
+# since this uses sessions under the hood:
+
     # - create a list to hold melon objects and a variable to hold the total
     #   cost of the order
     # - loop over the cart dictionary, and for each melon id:
@@ -82,13 +87,6 @@ def show_shopping_cart():
 #implement cart.html
 #check if session is empty
 #key or no key
-    session.request(cart)
-    return session
-    
-
-
-    # return render_template("cart.html")
-
 
 
 @app.route("/add_to_cart/<melon_id>")
@@ -110,7 +108,29 @@ def add_to_cart(melon_id):
     # - flash a success message
     # - redirect the user to the cart page
 
-    return "Oops! This needs to be implemented!"
+    # cart = None
+    # session["cart"] = {}
+
+    if "cart" not in session:
+        session['cart'] = {}
+
+        print session['cart'] 
+
+    elif "cart" in session:
+        if melon_id in session['cart']:
+
+            print session["cart"]
+            session['cart'][melon_id] += 1
+
+        else:
+            session['cart'][melon_id] = 1
+
+    print flash("Melon successfully added to cart!")
+
+
+    return render_template("cart.html")
+
+
 
 
 @app.route("/login", methods=["GET"])
